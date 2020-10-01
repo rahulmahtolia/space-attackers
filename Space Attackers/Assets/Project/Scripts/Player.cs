@@ -45,8 +45,10 @@ public class Player : MonoBehaviour
 
 		// Fire missiles.
 		cooldownTimer -= Time.deltaTime; // Time.deltaTime = how many seconds since last frame /#/ countdown clock
-		if (Input.GetAxis ("Fire1") == 1f) {
-			if (cooldownTimer <= 0 && fired == false) {
+		if (Input.GetAxis ("Fire1") == 1f) 
+		{
+			if (cooldownTimer <= 0 && !fired)
+			{
 				fired = true;
 
 				cooldownTimer = firingCooldownDuration;
@@ -57,12 +59,16 @@ public class Player : MonoBehaviour
 				missileInstance.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, firingSpeed);
 				Destroy (missileInstance, 2f);
 			}
-		} else {
+		}
+		else
+		{
 			fired = false;
 		}
 
-        void OnTriggerEnter2D (Collider2D otherCollider) {
-            if (otherCollider.tag == "EnemyMissile") {
+     	void OnTriggerEnter2D (Collider2D otherCollider)
+	{
+        	if (otherCollider.CompareTag("EnemyMissile") 
+	  	{
                 GameObject explosionInstance = Instantiate (explosionPrefab);
                 explosionInstance.transform.SetParent(transform.parent); // same as this.transfer.parent --> parent of the enemy
                 explosionInstance.transform.position = transform.position;
@@ -70,7 +76,7 @@ public class Player : MonoBehaviour
                 Destroy (explosionInstance, 1.5f); //1.5f = 1.5 seconds
                 Destroy (gameObject);
                 Destroy (otherCollider.gameObject);
-        }
-    }
+        	}
+    	}
 	}
 }
